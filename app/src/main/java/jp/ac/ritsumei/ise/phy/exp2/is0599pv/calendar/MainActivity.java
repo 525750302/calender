@@ -2,6 +2,7 @@ package jp.ac.ritsumei.ise.phy.exp2.is0599pv.calendar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,16 +23,17 @@ public class MainActivity extends AppCompatActivity {
     private Timer timer;
     //private Handler mHandler;
     private Calendar mCalendar;
-    private application_calendar data = (application_calendar)getApplicationContext();
+    private application_calendar data;
 
     private TextView[][] schedule_text = new TextView[5][5];
-
-    private Switch edit_mode = findViewById(R.id.edit_switch);
+    private Switch edit_switch;
 
     private int[] edit_num = new int[2];
 
     protected void ini()
     {
+        data = (application_calendar)getApplication();
+        edit_switch = findViewById(R.id.edit_switch);
         schedule_text[0][0] = findViewById(R.id.textView1_1);
         schedule_text[0][1] = findViewById(R.id.textView1_2);
         schedule_text[0][2] = findViewById(R.id.textView1_3);
@@ -63,7 +65,13 @@ public class MainActivity extends AppCompatActivity {
             for(int time=0;time<5;++time)
             {
                 if(data.get_exist(day,time)==1)
-                schedule_text[day][time].setText("");
+                {
+                    String show_lesson;
+                    show_lesson = "";
+                    show_lesson = show_lesson + data.getName(day,time).toString()+"\n";
+                    show_lesson = show_lesson + data.getPlace(day,time).toString()+"\n";
+                    schedule_text[day][time].setText(show_lesson);
+                }
             }
         }
     }
@@ -72,10 +80,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ini();
 
         timer = new Timer();//创建timer对象
         tvTime=findViewById(R.id.tvtime);
-        ini();
 
         timer.schedule(new TimerTask() {
             public void run() {
@@ -245,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     public void transmit(int day,int time){
-        if(edit_mode.isChecked())
+        if(edit_switch.isChecked())
         {
             Intent intent=new Intent(MainActivity.this,edit_schedule.class);//把数据传递到NextActivity
 

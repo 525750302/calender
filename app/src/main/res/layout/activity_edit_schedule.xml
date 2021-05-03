@@ -7,11 +7,12 @@
     tools:context=".edit_schedule">
 
     <Button
-        android:id="@+id/delete"
-        android:layout_width="95dp"
+        android:id="@+id/clear"
+        android:layout_width="105dp"
         android:layout_height="53dp"
         android:layout_marginBottom="40dp"
-        android:text="delete"
+        android:onClick="button_clear"
+        android:text="clear"
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -427,6 +428,7 @@
         android:layout_height="53dp"
         android:layout_marginStart="25dp"
         android:layout_marginBottom="40dp"
+        android:onClick="button_yes"
         android:text="〇"
         android:textAlignment="center"
         android:textSize="28sp"
@@ -441,6 +443,7 @@
         android:layout_height="53dp"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="40dp"
+        android:onClick="button_no"
         android:text="✕"
         android:textAlignment="center"
         android:textSize="28sp"
@@ -500,7 +503,7 @@
         android:layout_marginStart="62dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="63dp"
-        android:text="please input leason message"
+        android:text="please input leason information"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -513,61 +516,40 @@
         android:layout_marginStart="1dp"
         android:layout_marginTop="34dp"
         android:layout_marginEnd="28dp"
-        android:layout_marginBottom="13dp"
         android:background="@drawable/edit_border"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/edit_time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView_name"
         app:layout_constraintTop_toBottomOf="@+id/textView_title" />
 
     <EditText
-        android:id="@+id/edit_time"
-        android:layout_width="283dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="11dp"
-        android:layout_marginEnd="28dp"
-        android:background="@drawable/edit_border"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView_time"
-        app:layout_constraintTop_toBottomOf="@+id/textView_name" />
-
-    <EditText
         android:id="@+id/edit_place"
         android:layout_width="277dp"
         android:layout_height="29dp"
-        android:layout_marginStart="7dp"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="447dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="540dp"
         android:background="@drawable/edit_border"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textView_place"
-        app:layout_constraintTop_toBottomOf="@+id/edit_time"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_time" />
 
     <EditText
         android:id="@+id/edit_remark"
         android:layout_width="267dp"
         android:layout_height="135dp"
-        android:layout_marginTop="432dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="328dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="73dp"
         android:background="@drawable/edit_border"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/clear"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toEndOf="@+id/textView_remark" />
 
     <TextView
         android:id="@+id/textView_remark"
@@ -596,5 +578,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/edit_time"
+        android:layout_width="275dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="32dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

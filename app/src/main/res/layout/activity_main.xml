@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:name=".application_calendar">
+    tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/textView1_5"
@@ -15,6 +14,7 @@
         android:clickable="true"
         android:onClick="on_click_1_5"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/textView2_5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView1_4" />
@@ -27,6 +27,7 @@
         android:clickable="true"
         android:onClick="on_click_4_5"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/textView5_5"
         app:layout_constraintStart_toEndOf="@+id/textView3_5"
         app:layout_constraintTop_toBottomOf="@+id/textView4_4" />
@@ -39,6 +40,7 @@
         android:clickable="true"
         android:onClick="on_click_2_5"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/textView3_5"
         app:layout_constraintStart_toEndOf="@+id/textView1_5"
         app:layout_constraintTop_toBottomOf="@+id/textView2_4" />
@@ -51,6 +53,7 @@
         android:clickable="true"
         android:onClick="on_click_3_5"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/textView4_5"
         app:layout_constraintStart_toEndOf="@+id/textView2_5"
         app:layout_constraintTop_toBottomOf="@+id/textView3_4" />
@@ -63,6 +66,7 @@
         android:clickable="true"
         android:onClick="on_click_5_5"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView4_5"
         app:layout_constraintTop_toBottomOf="@+id/textView5_4" />
@@ -75,6 +79,7 @@
         android:clickable="true"
         android:onClick="on_click_5_1"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView4_1"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -87,6 +92,7 @@
         android:clickable="true"
         android:onClick="on_click_5_2"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView4_2"
         app:layout_constraintTop_toBottomOf="@+id/textView5_1" />
@@ -99,6 +105,7 @@
         android:clickable="true"
         android:onClick="on_click_5_4"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView4_4"
         app:layout_constraintTop_toBottomOf="@+id/textView5_3" />
@@ -111,6 +118,7 @@
         android:clickable="true"
         android:onClick="on_click_5_3"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView4_3"
         app:layout_constraintTop_toBottomOf="@+id/textView5_2" />
@@ -123,6 +131,7 @@
         android:clickable="true"
         android:onClick="on_click_4_1"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/textView5_1"
         app:layout_constraintStart_toEndOf="@+id/textView3_1"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -135,6 +144,7 @@
         android:clickable="true"
         android:onClick="on_click_4_2"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/textView5_2"
         app:layout_constraintStart_toEndOf="@+id/textView3_2"
         app:layout_constraintTop_toBottomOf="@+id/textView4_1" />
@@ -147,6 +157,7 @@
         android:clickable="true"
         android:onClick="on_click_4_4"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/textView5_4"
         app:layout_constraintStart_toEndOf="@+id/textView3_4"
         app:layout_constraintTop_toBottomOf="@+id/textView4_3" />
@@ -159,6 +170,7 @@
         android:clickable="true"
         android:onClick="on_click_4_3"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/textView5_3"
         app:layout_constraintStart_toEndOf="@+id/textView3_3"
         app:layout_constraintTop_toBottomOf="@+id/textView4_2" />
@@ -171,6 +183,7 @@
         android:clickable="true"
         android:onClick="on_click_3_1"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/textView4_1"
         app:layout_constraintStart_toEndOf="@+id/textView2_1"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -183,6 +196,7 @@
         android:clickable="true"
         android:onClick="on_click_3_3"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/textView4_3"
         app:layout_constraintStart_toEndOf="@+id/textView2_3"
         app:layout_constraintTop_toBottomOf="@+id/textView3_2" />
@@ -195,6 +209,7 @@
         android:clickable="true"
         android:onClick="on_click_3_4"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/textView4_4"
         app:layout_constraintStart_toEndOf="@+id/textView2_4"
         app:layout_constraintTop_toBottomOf="@+id/textView3_3" />
@@ -207,6 +222,7 @@
         android:clickable="true"
         android:onClick="on_click_3_2"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/textView4_2"
         app:layout_constraintStart_toEndOf="@+id/textView2_2"
         app:layout_constraintTop_toBottomOf="@+id/textView3_1" />
@@ -219,6 +235,7 @@
         android:clickable="true"
         android:onClick="on_click_1_1"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/textView2_1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView1" />
@@ -231,6 +248,7 @@
         android:clickable="true"
         android:onClick="on_click_1_2"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/textView2_2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView1_1" />
@@ -243,6 +261,7 @@
         android:clickable="true"
         android:onClick="on_click_1_4"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/textView2_4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView1_3" />
@@ -255,6 +274,7 @@
         android:clickable="true"
         android:onClick="on_click_1_3"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/textView2_3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView1_2" />
@@ -341,6 +361,7 @@
         android:clickable="true"
         android:onClick="on_click_2_1"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/textView3_1"
         app:layout_constraintStart_toEndOf="@+id/textView1_1"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
@@ -353,6 +374,7 @@
         android:clickable="true"
         android:onClick="on_click_2_3"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/textView3_3"
         app:layout_constraintStart_toEndOf="@+id/textView1_3"
         app:layout_constraintTop_toBottomOf="@+id/textView2_2" />
@@ -365,6 +387,7 @@
         android:clickable="true"
         android:onClick="on_click_2_4"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/textView3_4"
         app:layout_constraintStart_toEndOf="@+id/textView1_4"
         app:layout_constraintTop_toBottomOf="@+id/textView2_3" />
@@ -377,6 +400,7 @@
         android:clickable="true"
         android:onClick="on_click_2_2"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/textView3_2"
         app:layout_constraintStart_toEndOf="@+id/textView1_2"
         app:layout_constraintTop_toBottomOf="@+id/textView2_1" />
@@ -385,7 +409,7 @@
         android:id="@+id/Setting_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="30dp"
         android:text="setting"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -410,12 +434,11 @@
         android:id="@+id/edit_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="edit_mode"
+        android:layout_marginBottom="42dp"
+        android:text="edit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.202"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.929" />
+        app:layout_constraintHorizontal_bias="0.218"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
