@@ -9,6 +9,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -24,6 +25,10 @@ public class MainActivity extends AppCompatActivity {
     private application_calendar data = (application_calendar)getApplicationContext();
 
     private TextView[][] schedule_text = new TextView[5][5];
+
+    private Switch edit_mode = findViewById(R.id.edit_switch);
+
+    private int[] edit_num = new int[2];
 
     protected void ini()
     {
@@ -112,6 +117,143 @@ public class MainActivity extends AppCompatActivity {
             tvTime.setText(str);
         }
     };
+
+        public void on_click_1_1(View v){
+            edit_num[0]=0;
+            edit_num[1]=0;
+            transmit(edit_num[0],edit_num[1]);
+        }
+        public void on_click_1_2(View v){
+            edit_num[0]=0;
+            edit_num[1]=1;
+            transmit(edit_num[0],edit_num[1]);
+        }
+        public void on_click_1_3(View v){
+            edit_num[0]=0;
+            edit_num[1]=2;
+            transmit(edit_num[0],edit_num[1]);
+        }
+        public void on_click_1_4(View v){
+            edit_num[0]=0;
+            edit_num[1]=3;
+            transmit(edit_num[0],edit_num[1]);
+        }
+        public void on_click_1_5(View v){
+            edit_num[0]=0;
+            edit_num[1]=4;
+            transmit(edit_num[0],edit_num[1]);
+        }
+        public void on_click_2_1(View v){
+            edit_num[0]=1;
+            edit_num[1]=0;
+            transmit(edit_num[0],edit_num[1]);
+        }
+        public void on_click_2_2(View v){
+            edit_num[0]=1;
+            edit_num[1]=1;
+            transmit(edit_num[0],edit_num[1]);
+        }
+        public void on_click_2_3(View v){
+            edit_num[0]=1;
+            edit_num[1]=2;
+            transmit(edit_num[0],edit_num[1]);
+        }
+        public void on_click_2_4(View v){
+            edit_num[0]=1;
+            edit_num[1]=3;
+            transmit(edit_num[0],edit_num[1]);
+        }
+        public void on_click_2_5(View v){
+            edit_num[0]=1;
+            edit_num[1]=4;
+            transmit(edit_num[0],edit_num[1]);
+        }
+        public void on_click_3_1(View v){
+            edit_num[0]=2;
+            edit_num[1]=0;
+            transmit(edit_num[0],edit_num[1]);
+        }
+        public void on_click_3_2(View v){
+            edit_num[0]=2;
+            edit_num[1]=1;
+            transmit(edit_num[0],edit_num[1]);
+        }
+        public void on_click_3_3(View v){
+            edit_num[0]=2;
+            edit_num[1]=2;
+            transmit(edit_num[0],edit_num[1]);
+        }
+        public void on_click_3_4(View v){
+            edit_num[0]=2;
+            edit_num[1]=3;
+            transmit(edit_num[0],edit_num[1]);
+        }
+        public void on_click_3_5(View v){
+            edit_num[0]=2;
+            edit_num[1]=4;
+            transmit(edit_num[0],edit_num[1]);
+        }
+        public void on_click_4_1(View v){
+            edit_num[0]=3;
+            edit_num[1]=0;
+            transmit(edit_num[0],edit_num[1]);
+        }
+        public void on_click_4_2(View v){
+            edit_num[0]=3;
+            edit_num[1]=1;
+            transmit(edit_num[0],edit_num[1]);
+        }
+        public void on_click_4_3(View v){
+            edit_num[0]=3;
+            edit_num[1]=2;
+            transmit(edit_num[0],edit_num[1]);
+        }
+        public void on_click_4_4(View v){
+            edit_num[0]=3;
+            edit_num[1]=3;
+            transmit(edit_num[0],edit_num[1]);
+        }
+        public void on_click_4_5(View v){
+            edit_num[0]=3;
+            edit_num[1]=4;
+            transmit(edit_num[0],edit_num[1]);
+        }
+        public void on_click_5_1(View v){
+            edit_num[0]=4;
+            edit_num[1]=0;
+            transmit(edit_num[0],edit_num[1]);
+        }
+        public void on_click_5_2(View v){
+            edit_num[0]=4;
+            edit_num[1]=1;
+            transmit(edit_num[0],edit_num[1]);
+        }
+        public void on_click_5_3(View v){
+            edit_num[0]=4;
+            edit_num[1]=2;
+            transmit(edit_num[0],edit_num[1]);
+        }
+        public void on_click_5_4(View v){
+            edit_num[0]=4;
+            edit_num[1]=3;
+            transmit(edit_num[0],edit_num[1]);
+        }
+        public void on_click_5_5(View v){
+            edit_num[0]=4;
+            edit_num[1]=4;
+            transmit(edit_num[0],edit_num[1]);
+        }
+
+    public void transmit(int day,int time){
+        if(edit_mode.isChecked())
+        {
+            Intent intent=new Intent(MainActivity.this,edit_schedule.class);//把数据传递到NextActivity
+
+            intent.putExtra("day", day);
+            intent.putExtra("time", time);
+            startActivity(intent);//启动activity
+        }
+    }
 
     @Override
     protected void onDestroy() {
