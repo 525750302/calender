@@ -63,21 +63,22 @@ public class edit_schedule extends AppCompatActivity {
         offline_week[13] = findViewById(R.id.checkBox2_14);
         offline_week[14] = findViewById(R.id.checkBox2_15);
 
+        String time_text="";
+        if(day == 0)
+            time_text = "月";
+        if(day == 1)
+            time_text = "火";
+        if(day == 2)
+            time_text = "水";
+        if(day == 3)
+            time_text = "木";
+        if(day == 4)
+            time_text = "金";
+        edit_time.setText(time_text+"曜日"+time+"時限");
+
         if(day != -1 && time != -1){
             if(data.get_exist(day,time)==1){
                 edit_name.setText(data.getName(day,time));
-                String time_text="";
-                if(day == 0)
-                    time_text = "月";
-                if(day == 1)
-                    time_text = "火";
-                if(day == 2)
-                    time_text = "水";
-                if(day == 3)
-                    time_text = "木";
-                if(day == 4)
-                    time_text = "金";
-                edit_time.setText(time_text+"曜日"+time+"時限");
 
                 edit_place.setText(data.getPlace(day,time));
                 edit_remark .setText(data.getRemark(day,time));
@@ -141,7 +142,7 @@ public class edit_schedule extends AppCompatActivity {
             data.setPlace(edit_place.getText().toString(),day,time);
             data.setRemark(edit_remark.getText().toString(),day,time);
             int[] week = new int[15];
-            for(int i =1;i<15;++i)
+            for(int i =0;i<15;++i)
             {
                 if(online_week[i].isChecked()==true && offline_week[i].isChecked()==true)
                 {

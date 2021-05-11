@@ -8,6 +8,7 @@ public class application_calendar extends Application{
     String[][] remark= new String[5][5];
     int[][][] online = new int[5][5][15];
     int[][] exist = new int[5][5];
+    int semester = 1;
 
     public String getName(int day,int time)
     {
@@ -34,6 +35,8 @@ public class application_calendar extends Application{
     {
         return online[day][time][week];
     }
+    public int getSemester(){return semester;}
+    public void setSemester(int asemester){semester = asemester;}
 
     public void change(int day,int time,String aplace,int aexist)
     {
