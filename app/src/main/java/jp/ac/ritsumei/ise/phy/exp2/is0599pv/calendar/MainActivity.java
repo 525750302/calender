@@ -70,6 +70,52 @@ public class MainActivity extends AppCompatActivity{
         schedule_text[4][3] = findViewById(R.id.textView5_4);
         schedule_text[4][4] = findViewById(R.id.textView5_5);
 
+        mCalendar = Calendar.getInstance( );
+        int mMonth = mCalendar.get(Calendar.MONTH) + 1;        //获取日期的月
+        int mDay = mCalendar.get(Calendar.DAY_OF_MONTH);      //获取日期的天
+        int mWay = mCalendar.get(Calendar.DAY_OF_WEEK);      //获取日期的星期
+        int hour = mCalendar.get(Calendar.HOUR_OF_DAY);//HOUR    进制为12小时   HOUR_OF_DAY  为24小时
+        int minute = mCalendar.get(Calendar.MINUTE);//分钟
+        int second = mCalendar.get(Calendar.SECOND) + 1;//秒数
+
+        int start_mon = 0;
+        int start_day = 0;
+        int pass_day = 0;
+        int mon_max_data = 0;
+        if (data.getSemester( ) == 1) {
+            start_day = 6;
+            start_mon = 4;
+        } else {
+            start_day = 26;
+            start_mon = 9;
+        }
+        if (mMonth != start_mon) {
+            for (int i = start_mon; i != mMonth; i = i % 12 + 1) {
+                if (i == 1 || i == 3 || i == 7 || i == 8 || i == 10 || i == 12) {
+                    mon_max_data = 31;
+                } else if (i == 4 || i == 6 || i == 9 || i == 11) {
+                    mon_max_data = 30;
+                } else if (i == 2) {
+                    mon_max_data = 28;
+                }else if(i==5)
+                {
+                    mon_max_data = 31-7;
+                }
+
+                if (i != start_mon && i != mMonth) {
+                    pass_day += mon_max_data;
+                } else if (i == start_mon) {
+                    pass_day += mon_max_data - start_day;
+                }
+            }
+            pass_day += mDay;
+        } else {
+            pass_day = mDay - start_day - 1;
+        }
+
+        week = pass_day / 7;
+
+
         for (int day = 0; day < 5; ++day) {
             for (int time = 0; time < 5; ++time) {
                 if (data.get_exist(day, time) == 1) {
@@ -91,7 +137,7 @@ public class MainActivity extends AppCompatActivity{
             }
         }
         set_alarm();
-        //set_auto_time_check();
+        set_auto_time_check();
     }
 
     @Override
@@ -139,43 +185,6 @@ public class MainActivity extends AppCompatActivity{
                     time_text = "土";
                 if (mWay == 1)
                     time_text = "日";
-
-                int start_mon = 0;
-                int start_day = 0;
-                int pass_day = 0;
-                int mon_max_data = 0;
-                if (data.getSemester( ) == 1) {
-                    start_day = 6;
-                    start_mon = 4;
-                } else {
-                    start_day = 26;
-                    start_mon = 9;
-                }
-                if (mMonth != start_mon) {
-                    for (int i = start_mon; i != mMonth; i = i % 12 + 1) {
-                        if (i == 1 || i == 3 || i == 7 || i == 8 || i == 10 || i == 12) {
-                            mon_max_data = 31;
-                        } else if (i == 4 || i == 6 || i == 9 || i == 11) {
-                            mon_max_data = 30;
-                        } else if (i == 2) {
-                            mon_max_data = 28;
-                        }else if(i==5)
-                        {
-                            mon_max_data = 31-7;
-                        }
-
-                        if (i != start_mon && i != mMonth) {
-                            pass_day += mon_max_data;
-                        } else if (i == start_mon) {
-                            pass_day += mon_max_data - start_day;
-                        }
-                    }
-                    pass_day += mDay;
-                } else {
-                    pass_day = mDay - start_day - 1;
-                }
-
-                week = pass_day / 7;
 
                 String time = String.format("第%d週 %s曜日 %d:%02d:%02d", week + 1, time_text, hour, minute, second);
 
@@ -354,6 +363,8 @@ public class MainActivity extends AppCompatActivity{
     public void Setting_button(View v){
         Intent intent=new Intent(MainActivity.this,setting.class);//把数据传递到NextActivity
         startActivity(intent);//启动activity
+        set_alarm();
+        set_auto_time_check();
     }
 
     public void transmit(int day,int time){
@@ -364,6 +375,8 @@ public class MainActivity extends AppCompatActivity{
             intent.putExtra("day", day);
             intent.putExtra("time", time);
             startActivity(intent);//启动activity
+            set_alarm();
+            set_auto_time_check();
         }
     }
 
@@ -381,14 +394,18 @@ public class MainActivity extends AppCompatActivity{
         {
             deleteAlarm(i);
         }
-        for (int i =0;i<5;++i){
-            if(data.get_exist(i,0)==1)
-            {
-                addAlarm(i,0,data.get_online(i, 0, week));
-            }
-            else if(data.get_exist(i,1)==1)
-            {
-                addAlarm(i,1,data.get_online(i, 1, week));
+        if(data.getSet_alarm()==1) {
+            for (int i = 0; i < 5; ++i) {
+                if (data.get_exist(i, 0) == 1) {
+                    addAlarm(i, 0, data.get_online(i, 0, week));
+                } else if (data.get_exist(i, 1) == 1) {
+                    addAlarm(i, 1, data.get_online(i, 1, week));
+                }else  if(data.getIn_advance()==1)
+                {
+                    if(data.get_exist(i,2)==1){
+                        addAlarm(i, 1, data.get_online(i, 2, week));
+                    }
+                }
             }
         }
     }
@@ -405,7 +422,7 @@ public class MainActivity extends AppCompatActivity{
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis());
         int now_day_ofweek = c.get(Calendar.DAY_OF_WEEK);
-        int day_inc = (day+1+7-now_day_ofweek)%7;
+        int day_inc = (day+7-now_day_ofweek)%7;
         c.setTimeInMillis(System.currentTimeMillis()+24*60*60*1000*day_inc);
         if(class_no == 0 && online==-1) {
             c.set(Calendar.HOUR_OF_DAY, 9 - (int)(data.offline_time / 60));
@@ -430,23 +447,48 @@ public class MainActivity extends AppCompatActivity{
             c.set(Calendar.HOUR_OF_DAY, 10 - (int)((data.online_time-45) / 60)-i);
             c.set(Calendar.MINUTE, (45 +60- (data.online_time % 60))%60);
         }
+        else if(class_no==2&& online==-1)
+        {
+            int i=0;
+            if(data.in_advance>45)
+                i = 1;
+            c.set(Calendar.HOUR_OF_DAY, 12 - (int)((data.offline_time-55) / 60)-i);
+            c.set(Calendar.MINUTE, (55 +60- (data.offline_time % 60))%60);
+        }
+        else if(class_no == 2 && online==1){
+            int i=0;
+            if(data.in_advance>45)
+                i = 1;
+            c.set(Calendar.HOUR_OF_DAY, 12 - (int)((data.online_time-55) / 60)-i);
+            c.set(Calendar.MINUTE, (55 +60- (data.online_time % 60))%60);
+        }
         alarmData[day].get_Date(c.getTimeInMillis());
+        Intent intent = new Intent(MainActivity.this, PlayAlarm.class);
+        PendingIntent pi = PendingIntent.getActivity(MainActivity.this, 0, intent, 0);
         alarmManager.set(AlarmManager.RTC_WAKEUP,
-                alarmData[day].getTime(),PendingIntent.getBroadcast(MainActivity.this,
-                        alarmData[day].getId(),new Intent(MainActivity.this,AlarmReceiver.class),0));
+                alarmData[day].getTime(),pi);
         alarmData[day].setExist(1);
     }
 
     public void set_auto_time_check() {
         Calendar c = Calendar.getInstance();
         int day_inc = (2-c.get(Calendar.DAY_OF_WEEK)+7)%7;
+        if(day_inc==0)
+            day_inc +=7;
 
         c.setTimeInMillis(System.currentTimeMillis()+24*60*60*1000*day_inc);
         c.set(Calendar.HOUR_OF_DAY, 2);
         c.set(Calendar.MINUTE, 0);
+        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+        PendingIntent pi = PendingIntent.getActivity(MainActivity.this, 0, intent, 0);
         alarmManager.set(AlarmManager.RTC_WAKEUP,
-                c.getTimeInMillis(),PendingIntent.getBroadcast(MainActivity.this,
-                        (int)(c.getTimeInMillis()/1000/60),new Intent(MainActivity.this,Alarmweek.class),0));
+                c.getTimeInMillis(),pi);
+
+        //intent = new Intent(MainActivity.this, PlayAlarm.class);
+        //pi = PendingIntent.getActivity(MainActivity.this, 0, intent, 0);
+        //c.setTimeInMillis(System.currentTimeMillis()+10000);
+        //alarmManager.set(AlarmManager.RTC_WAKEUP,
+                //c.getTimeInMillis(),pi);
     }
 
 }

@@ -74,7 +74,7 @@ public class edit_schedule extends AppCompatActivity {
             time_text = "木";
         if(day == 4)
             time_text = "金";
-        edit_time.setText(time_text+"曜日"+time+"時限");
+        edit_time.setText(time_text+"曜日"+(time+1)+"時限");
 
         if(day != -1 && time != -1){
             if(data.get_exist(day,time)==1){
