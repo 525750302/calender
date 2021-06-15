@@ -3,6 +3,10 @@ package jp.ac.ritsumei.ise.phy.exp2.is0599pv.calendar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -10,15 +14,21 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity {
+import static java.security.AccessController.getContext;
+
+public class MainActivity extends AppCompatActivity{
 
     private TextView tvTime;
     private Timer timer;
@@ -26,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
     private Calendar mCalendar;
     private application_calendar data;
     private int week = 0;
+    public static AlarmManager alarmManager;
+    private ListView lvAlarmList;
+    private static final String KEY_ALARM_LIST = "alarmList";
+    private AlarmData[] list= new AlarmData[5];
 
     private TextView[][] schedule_text = new TextView[5][5];
     private Switch edit_switch;
@@ -33,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private int[] edit_num = new int[2];
 
     protected void ini() {
+        alarmManager = (AlarmManager)MainActivity.this.getSystemService(Context.ALARM_SERVICE);
         data = (application_calendar) getApplication( );
         edit_switch = findViewById(R.id.edit_switch);
         schedule_text[0][0] = findViewById(R.id.textView1_1);
@@ -81,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+        set_alarm();
+        set_auto_time_check();
     }
 
     @Override
@@ -360,4 +377,130 @@ public class MainActivity extends AppCompatActivity {
             timer.cancel();//关闭timer
         }
     }
+
+    private void set_alarm()
+    {
+        for(int i =0;i<5;++i)
+        {
+            deleteAlarm(i);
+        }
+        for (int i =0;i<5;++i){
+            if(data.get_exist(i,0)==1)
+            {
+                addAlarm(i,0,data.get_online(i, 0, week));
+            }
+            else if(data.get_exist(i,1)==1)
+            {
+                addAlarm(i,1,data.get_online(i, 1, week));
+            }
+        }
+    }
+
+
+    private void deleteAlarm(int day){
+        if(list[day].getExist()==1) {
+            alarmManager.cancel(PendingIntent.getBroadcast(MainActivity.this,list[day].getId(),new Intent(MainActivity.this,AlarmReceiver.class),0));
+            list[day].setExist(0);
+        }
+    }
+
+    public void addAlarm(int day,int class_no,int online){
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(System.currentTimeMillis());
+        int now_day_ofweek = c.get(Calendar.DAY_OF_WEEK);
+        int day_inc = (day+1+7-now_day_ofweek)%7;
+        c.setTimeInMillis(System.currentTimeMillis()+24*60*60*1000*day_inc);
+        if(class_no == 0 && online==-1) {
+            c.set(Calendar.HOUR_OF_DAY, 9 - (int)(data.offline_time / 60));
+            c.set(Calendar.MINUTE, 60 - (data.offline_time % 60));
+        }
+        else if(class_no == 0 && online==1){
+            c.set(Calendar.HOUR_OF_DAY, 9 - (int)(data.online_time / 60));
+            c.set(Calendar.MINUTE, 60 - (data.online_time % 60));
+        }
+        else if(class_no==1&& online==-1)
+        {
+            int i=0;
+            if(data.in_advance>45)
+                i = 1;
+            c.set(Calendar.HOUR_OF_DAY, 10 - (int)((data.offline_time-45) / 60)-i);
+            c.set(Calendar.MINUTE, (45 +60- (data.offline_time % 60))%60);
+        }
+        else if(class_no == 1 && online==1){
+            int i=0;
+            if(data.in_advance>45)
+                i = 1;
+            c.set(Calendar.HOUR_OF_DAY, 10 - (int)((data.online_time-45) / 60)-i);
+            c.set(Calendar.MINUTE, (45 +60- (data.online_time % 60))%60);
+        }
+        list[day].get_Date(c.getTimeInMillis());
+        alarmManager.set(AlarmManager.RTC_WAKEUP,
+                list[day].getTime(),PendingIntent.getBroadcast(MainActivity.this,
+                        list[day].getId(),new Intent(MainActivity.this,AlarmReceiver.class),0));
+        list[day].setExist(1);
+    }
+
+    public void set_auto_time_check() {
+        Calendar c = Calendar.getInstance();
+        int day_inc = (2-c.get(Calendar.DAY_OF_WEEK)+7)%7;
+
+        c.setTimeInMillis(System.currentTimeMillis()+24*60*60*1000*day_inc);
+        c.set(Calendar.HOUR_OF_DAY, 2);
+        c.set(Calendar.MINUTE, 0);
+        alarmManager.set(AlarmManager.RTC_WAKEUP,
+                c.getTimeInMillis(),PendingIntent.getBroadcast(MainActivity.this,
+                        (int)(c.getTimeInMillis()/1000/60),new Intent(MainActivity.this,Alarmweek.class),0));
+    }
+
+    private static class AlarmData{
+        private String timeLable = "";
+        private  long time = 0;
+        private Calendar date;
+        private int exist;
+
+        public void get_Date(long time){
+            this.time = time;
+
+            date = Calendar.getInstance();
+            date.setTimeInMillis(time);
+            timeLable = String.format("%02d月%02d日 %02d:%02d",
+                    date.get(Calendar.MONTH)+1,
+                    date.get(Calendar.DAY_OF_MONTH),
+                    date.get(Calendar.HOUR_OF_DAY),
+                    date.get(Calendar.MINUTE));
+        }
+        public AlarmData(String ad){
+            this.timeLable = ad;
+        }
+        public void setTime(long time){
+            this.time = time;
+        }
+        public long getTime(){
+            return time;
+        }
+        public void setTimeLable(String timeLable){
+            this.timeLable = timeLable;
+        }
+        public String getTimeLable(){
+            return timeLable;
+        }
+
+        @Override
+        public String toString() {
+            return getTimeLable();
+        }
+
+        public int getId(){
+            return (int)(getTime()/1000/60);
+        }
+
+        public int getExist(){
+            return exist;
+        }
+
+        public void setExist(int a){
+            exist = a;
+        }
+    }
+
 }

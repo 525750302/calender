@@ -8,7 +8,11 @@ public class application_calendar extends Application{
     String[][] remark= new String[5][5];
     int[][][] online = new int[5][5][15];
     int[][] exist = new int[5][5];
-    int semester = 1;
+    int semester = 1;//1为春，0为秋
+    int set_alarm = 0;
+    int in_advance = 0;
+    int online_time = 0;
+    int offline_time = 0;
 
     public String getName(int day,int time)
     {
@@ -37,6 +41,10 @@ public class application_calendar extends Application{
     }
     public int getSemester(){return semester;}
     public void setSemester(int asemester){semester = asemester;}
+    public void setSet_alarm(int check){set_alarm = check;}
+    public void setIn_advance(int check){in_advance = check;}
+    public void setOnline_time(int check){online_time = check;}
+    public void setOffline_time(int check){offline_time = check;}
 
     public void change(int day,int time,String aplace,int aexist)
     {
