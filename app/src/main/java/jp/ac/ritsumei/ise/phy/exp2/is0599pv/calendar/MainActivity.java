@@ -2,10 +2,8 @@ package jp.ac.ritsumei.ise.phy.exp2.is0599pv.calendar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -14,19 +12,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -38,8 +30,7 @@ public class MainActivity extends AppCompatActivity{
     private int week = 0;
     public static AlarmManager alarmManager;
     private ListView lvAlarmList;
-    private static final String KEY_ALARM_LIST = "alarmList";
-    private AlarmData[] list= new AlarmData[5];
+    private Alarm_Data[] alarmData= new Alarm_Data[5];
 
     private TextView[][] schedule_text = new TextView[5][5];
     private Switch edit_switch;
@@ -47,6 +38,9 @@ public class MainActivity extends AppCompatActivity{
     private int[] edit_num = new int[2];
 
     protected void ini() {
+        for(int i = 0;i<5;++i) {
+            alarmData[i] = new Alarm_Data();
+        }
         alarmManager = (AlarmManager)MainActivity.this.getSystemService(Context.ALARM_SERVICE);
         data = (application_calendar) getApplication( );
         edit_switch = findViewById(R.id.edit_switch);
@@ -97,7 +91,7 @@ public class MainActivity extends AppCompatActivity{
             }
         }
         set_alarm();
-        set_auto_time_check();
+        //set_auto_time_check();
     }
 
     @Override
@@ -151,7 +145,7 @@ public class MainActivity extends AppCompatActivity{
                 int pass_day = 0;
                 int mon_max_data = 0;
                 if (data.getSemester( ) == 1) {
-                    start_day = 1;
+                    start_day = 6;
                     start_mon = 4;
                 } else {
                     start_day = 26;
@@ -159,12 +153,15 @@ public class MainActivity extends AppCompatActivity{
                 }
                 if (mMonth != start_mon) {
                     for (int i = start_mon; i != mMonth; i = i % 12 + 1) {
-                        if (i == 1 || i == 3 || i == 5 || i == 7 || i == 8 || i == 10 || i == 12) {
+                        if (i == 1 || i == 3 || i == 7 || i == 8 || i == 10 || i == 12) {
                             mon_max_data = 31;
                         } else if (i == 4 || i == 6 || i == 9 || i == 11) {
                             mon_max_data = 30;
                         } else if (i == 2) {
                             mon_max_data = 28;
+                        }else if(i==5)
+                        {
+                            mon_max_data = 31-7;
                         }
 
                         if (i != start_mon && i != mMonth) {
@@ -178,7 +175,7 @@ public class MainActivity extends AppCompatActivity{
                     pass_day = mDay - start_day - 1;
                 }
 
-                week = (pass_day + mWay) / 7;
+                week = pass_day / 7;
 
                 String time = String.format("第%d週 %s曜日 %d:%02d:%02d", week + 1, time_text, hour, minute, second);
 
@@ -397,10 +394,10 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
-    private void deleteAlarm(int day){
-        if(list[day].getExist()==1) {
-            alarmManager.cancel(PendingIntent.getBroadcast(MainActivity.this,list[day].getId(),new Intent(MainActivity.this,AlarmReceiver.class),0));
-            list[day].setExist(0);
+    public void deleteAlarm(int day){
+        if(alarmData[day].getExist()==1) {
+            alarmManager.cancel(PendingIntent.getBroadcast(MainActivity.this,alarmData[day].getId(),new Intent(MainActivity.this,AlarmReceiver.class),0));
+            alarmData[day].setExist(0);
         }
     }
 
@@ -433,11 +430,11 @@ public class MainActivity extends AppCompatActivity{
             c.set(Calendar.HOUR_OF_DAY, 10 - (int)((data.online_time-45) / 60)-i);
             c.set(Calendar.MINUTE, (45 +60- (data.online_time % 60))%60);
         }
-        list[day].get_Date(c.getTimeInMillis());
+        alarmData[day].get_Date(c.getTimeInMillis());
         alarmManager.set(AlarmManager.RTC_WAKEUP,
-                list[day].getTime(),PendingIntent.getBroadcast(MainActivity.this,
-                        list[day].getId(),new Intent(MainActivity.this,AlarmReceiver.class),0));
-        list[day].setExist(1);
+                alarmData[day].getTime(),PendingIntent.getBroadcast(MainActivity.this,
+                        alarmData[day].getId(),new Intent(MainActivity.this,AlarmReceiver.class),0));
+        alarmData[day].setExist(1);
     }
 
     public void set_auto_time_check() {
@@ -450,57 +447,6 @@ public class MainActivity extends AppCompatActivity{
         alarmManager.set(AlarmManager.RTC_WAKEUP,
                 c.getTimeInMillis(),PendingIntent.getBroadcast(MainActivity.this,
                         (int)(c.getTimeInMillis()/1000/60),new Intent(MainActivity.this,Alarmweek.class),0));
-    }
-
-    private static class AlarmData{
-        private String timeLable = "";
-        private  long time = 0;
-        private Calendar date;
-        private int exist;
-
-        public void get_Date(long time){
-            this.time = time;
-
-            date = Calendar.getInstance();
-            date.setTimeInMillis(time);
-            timeLable = String.format("%02d月%02d日 %02d:%02d",
-                    date.get(Calendar.MONTH)+1,
-                    date.get(Calendar.DAY_OF_MONTH),
-                    date.get(Calendar.HOUR_OF_DAY),
-                    date.get(Calendar.MINUTE));
-        }
-        public AlarmData(String ad){
-            this.timeLable = ad;
-        }
-        public void setTime(long time){
-            this.time = time;
-        }
-        public long getTime(){
-            return time;
-        }
-        public void setTimeLable(String timeLable){
-            this.timeLable = timeLable;
-        }
-        public String getTimeLable(){
-            return timeLable;
-        }
-
-        @Override
-        public String toString() {
-            return getTimeLable();
-        }
-
-        public int getId(){
-            return (int)(getTime()/1000/60);
-        }
-
-        public int getExist(){
-            return exist;
-        }
-
-        public void setExist(int a){
-            exist = a;
-        }
     }
 
 }
