@@ -6,7 +6,7 @@ public class Now {
     @SerializedName("tmp")
     public String tempeture;
     @SerializedName("cond")
-    public More more;
+    public More more = new More();
     public class More {
         @SerializedName("txt")
         public String info;

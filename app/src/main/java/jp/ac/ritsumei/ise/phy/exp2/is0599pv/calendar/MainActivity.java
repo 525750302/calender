@@ -48,8 +48,31 @@ public class MainActivity extends AppCompatActivity{
     private int[] edit_num = new int[2];
 
     protected void ini() {
-        HeConfig.init("HE2106201859301927", "e3a39a8f61ec414eadac9c9a2a1941bc");
+        HeConfig.init("HE2106201859301927",
+                "e3a39a8f61ec414eadac9c9a2a1941bc");
         HeConfig.switchToDevService();
+        //String location = "BDA09";
+        //QWeather.getWeatherNow(this, location, Lang.JA, Unit.METRIC, new QWeather.OnResultWeatherNowListener() {
+            //@Override
+            //public void onError(Throwable e) {
+            //Log.i(TAG, "getWeather onError: " + e);
+            //}
+
+            //@Override
+            //public void onSuccess(WeatherNowBean weatherBean) {
+            //    Log.i(TAG, "getWeather onSuccess: " + new Gson().toJson(weatherBean));
+            //先判断返回的status是否正确，当status正确时获取数据，若status不正确，可查看status对应的Code值找到原因
+            //    if (Code.OK == weatherBean.getCode()) {
+             //       WeatherNowBean.NowBaseBean now = weatherBean.getNow();
+             //       System.out.println( now.getTemp() );
+              //  } else {
+              //      //在此查看返回数据失败的原因
+              //      Code code = weatherBean.getCode();
+              //      Log.i(TAG, "failed code: " + code);
+              //  }
+           // }
+        //})
+
         for(int i = 0;i<5;++i) {
             alarmData[i] = new Alarm_Data();
         }
@@ -398,6 +421,11 @@ public class MainActivity extends AppCompatActivity{
         if(timer!=null){
             timer.cancel();//关闭timer
         }
+    }
+
+    public void but_weather(View view){
+        Intent intent=new Intent(MainActivity.this,WeatherActivity.class);//把数据传递到NextActivity
+        startActivity(intent);//启动activity
     }
 
     private void set_alarm()

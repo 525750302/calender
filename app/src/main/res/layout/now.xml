@@ -10,7 +10,7 @@
         android:id="@+id/degree_text"
         android:layout_gravity="end"
         android:textSize="60sp"
-        android:textColor="#fff"
+        android:textColor="#000"
         />
     <!--显示天气概况-->
     <TextView
@@ -19,5 +19,5 @@
         android:id="@+id/weather_info_text"
         android:layout_gravity="end"
         android:textSize="20sp"
-        android:textColor="#fff"/>
+        android:textColor="#000"/>
 </LinearLayout>

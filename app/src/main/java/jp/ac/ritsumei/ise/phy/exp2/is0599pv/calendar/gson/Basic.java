@@ -7,7 +7,7 @@ public class Basic {
     public String cityName;   //城市名
     @SerializedName("id")
     public String weather_id;  //天气情况
-    public Update update;
+    public Update update = new Update();
     public class Update {
         @SerializedName("loc")
         public String updateTime;   //天气更新时间

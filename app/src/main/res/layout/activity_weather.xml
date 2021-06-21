@@ -8,7 +8,7 @@
     <ScrollView
         android:id="@+id/weather_layout"
         android:layout_width="match_parent"
-        android:layout_height="738dp"
+        android:layout_height="match_parent"
         android:overScrollMode="never"
         android:scrollbars="none">
 
@@ -23,9 +23,14 @@
 
             <include layout="@layout/forecast" />
 
-            <include layout="@layout/api" />
-
-            <include layout="@layout/suggestion" />
         </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/button_exit"
+        android:layout_width="71dp"
+        android:layout_height="wrap_content"
+        android:onClick="but_exit"
+        android:text="EXIT" />
+
 </FrameLayout>

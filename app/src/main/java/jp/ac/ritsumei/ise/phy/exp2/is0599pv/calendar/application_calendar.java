@@ -3,16 +3,16 @@ package jp.ac.ritsumei.ise.phy.exp2.is0599pv.calendar;
 import android.app.Application;
 
 public class application_calendar extends Application{
-    String[][] name= new String[5][5];
-    String[][] place= new String[5][5];
-    String[][] remark= new String[5][5];
-    int[][][] online = new int[5][5][15];
-    int[][] exist = new int[5][5];
-    int semester = 1;//1为春，0为秋
-    int set_alarm = 1;
-    int in_advance = 0;
-    int online_time = 40;
-    int offline_time = 40;
+    static String[][] name= new String[5][5];
+    static String[][] place= new String[5][5];
+    static String[][] remark= new String[5][5];
+    static int[][][] online = new int[5][5][15];
+    static int[][] exist = new int[5][5];
+    static int semester = 1;//1为春，0为秋
+    static int set_alarm = 1;
+    static int in_advance = 0;
+    static int online_time = 40;
+    static int offline_time = 40;
 
     public String getName(int day,int time)
     {
