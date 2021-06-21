@@ -16,9 +16,19 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.qweather.sdk.bean.base.Code;
+import com.qweather.sdk.bean.base.Lang;
+import com.qweather.sdk.bean.base.Unit;
+import com.qweather.sdk.bean.weather.WeatherNowBean;
+import com.qweather.sdk.view.HeConfig;
+import com.qweather.sdk.view.QWeather;
+
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -38,6 +48,8 @@ public class MainActivity extends AppCompatActivity{
     private int[] edit_num = new int[2];
 
     protected void ini() {
+        HeConfig.init("HE2106201859301927", "e3a39a8f61ec414eadac9c9a2a1941bc");
+        HeConfig.switchToDevService();
         for(int i = 0;i<5;++i) {
             alarmData[i] = new Alarm_Data();
         }

@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Calendar">
-        <activity android:name=".PlayAlarm"></activity>
+        <activity android:name=".WeatherActivity"></activity>
+        <activity android:name=".PlayAlarm" />
         <activity android:name=".edit_mode" />
         <activity android:name=".setting" />
         <activity android:name=".edit_schedule" />
@@ -22,5 +23,14 @@
             </intent-filter>
         </activity>
     </application>
+
+    <uses-permission
+        android:name="android.permission.INTERNET"/>
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission
+        android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission
+        android:name="android.permission.ACCESS_WIFI_STATE"/>
 
 </manifest>

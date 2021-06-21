@@ -7,6 +7,7 @@ import androidx.core.app.NotificationCompat;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -47,6 +48,8 @@ public class PlayAlarm extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mediaPlayer.stop();
+                Intent intent=new Intent(PlayAlarm.this,WeatherActivity.class);//把数据传递到NextActivity
+                startActivity(intent);//启动activity
                 finish();
             }
         });
