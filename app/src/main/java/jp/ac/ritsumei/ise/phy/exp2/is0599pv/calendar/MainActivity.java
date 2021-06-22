@@ -24,7 +24,10 @@ import com.qweather.sdk.bean.weather.WeatherNowBean;
 import com.qweather.sdk.view.HeConfig;
 import com.qweather.sdk.view.QWeather;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -454,6 +457,7 @@ public class MainActivity extends AppCompatActivity{
     public void deleteAlarm(int day){
         if(alarmData[day].getExist()==1) {
             alarmManager.cancel(PendingIntent.getBroadcast(MainActivity.this,alarmData[day].getId(),new Intent(MainActivity.this,AlarmReceiver.class),0));
+            System.out.println( "delete alarm "+ alarmData[day].getId());
             alarmData[day].setExist(0);
         }
     }
@@ -461,9 +465,12 @@ public class MainActivity extends AppCompatActivity{
     public void addAlarm(int day,int class_no,int online){
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis());
+        System.out.println( "now"+ stampToDate(c.getTimeInMillis()));
         int now_day_ofweek = c.get(Calendar.DAY_OF_WEEK);
-        int day_inc = (day+7-now_day_ofweek)%7;
-        c.setTimeInMillis(System.currentTimeMillis()+24*60*60*1000*day_inc);
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH)+1;
+        int date = c.get(Calendar.DATE);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
         if(class_no == 0 && online==-1) {
             c.set(Calendar.HOUR_OF_DAY, 9 - (int)(data.offline_time / 60));
             c.set(Calendar.MINUTE, 60 - (data.offline_time % 60));
@@ -502,7 +509,18 @@ public class MainActivity extends AppCompatActivity{
             c.set(Calendar.HOUR_OF_DAY, 12 - (int)((data.online_time-55) / 60)-i);
             c.set(Calendar.MINUTE, (55 +60- (data.online_time % 60))%60);
         }
+        int minute = c.get(Calendar.MINUTE);
+        int second = c.get(Calendar.SECOND);
+        String target_time = year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
+        long target_date = target_dateToStamp(target_time);
+        c.setTimeInMillis(target_date);
+        int day_inc = (day+2+7-now_day_ofweek)%7;
+        c.setTimeInMillis(c.getTimeInMillis()+24*60*60*1000*day_inc);
+        if(c.getTimeInMillis()<System.currentTimeMillis())
+            c.setTimeInMillis(c.getTimeInMillis()+24*60*60*1000*7);
         alarmData[day].get_Date(c.getTimeInMillis());
+        System.out.println( "set alarm "+ c.get(Calendar.HOUR_OF_DAY) + ":"+c.get(Calendar.MINUTE));
+        System.out.println( "target"+ stampToDate(c.getTimeInMillis())+" day_inc "+day_inc);
         Intent intent = new Intent(MainActivity.this, PlayAlarm.class);
         PendingIntent pi = PendingIntent.getActivity(MainActivity.this, 0, intent, 0);
         alarmManager.set(AlarmManager.RTC_WAKEUP,
@@ -516,7 +534,8 @@ public class MainActivity extends AppCompatActivity{
         if(day_inc==0)
             day_inc +=7;
 
-        c.setTimeInMillis(System.currentTimeMillis()+24*60*60*1000*day_inc);
+        c.setTimeInMillis(System.currentTimeMillis()+24*60*60*1000*7);
+        System.out.println( "AUTO "+ stampToDate(c.getTimeInMillis()));
         c.set(Calendar.HOUR_OF_DAY, 2);
         c.set(Calendar.MINUTE, 0);
         Intent intent = new Intent(MainActivity.this, MainActivity.class);
@@ -531,4 +550,21 @@ public class MainActivity extends AppCompatActivity{
                 //c.getTimeInMillis(),pi);
     }
 
+    public long  target_dateToStamp(String time) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        try {
+            date = simpleDateFormat.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace( );
+        }
+        long ts = date.getTime();
+        return ts;
+    }
+
+    public String stampToDate(long timeMillis){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date(timeMillis);
+        return simpleDateFormat.format(date);
+    }
 }
