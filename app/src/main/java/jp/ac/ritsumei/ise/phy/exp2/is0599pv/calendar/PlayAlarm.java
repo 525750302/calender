@@ -14,11 +14,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Calendar;
+
 public class PlayAlarm extends AppCompatActivity {
 
     private MediaPlayer mediaPlayer;
     private Button close_btn;
     private TextView font_txt;
+    private TextView text_class;
+    private application_calendar data;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +46,6 @@ public class PlayAlarm extends AppCompatActivity {
 
         font_txt = (TextView)findViewById(R.id.font_content) ;
         font_txt.setText("wake up!!!");
-
         close_btn = (Button)findViewById(R.id.close_btn);
         close_btn.setOnClickListener(new View.OnClickListener() {
             @Override

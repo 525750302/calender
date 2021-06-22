@@ -471,7 +471,7 @@ public class MainActivity extends AppCompatActivity{
         int month = c.get(Calendar.MONTH)+1;
         int date = c.get(Calendar.DATE);
         int hour = c.get(Calendar.HOUR_OF_DAY);
-        if(class_no == 0 && online==-1) {
+        if(class_no == 0 && (online==-1 || online==2)) {
             c.set(Calendar.HOUR_OF_DAY, 9 - (int)(data.offline_time / 60));
             c.set(Calendar.MINUTE, 60 - (data.offline_time % 60));
         }
@@ -479,7 +479,7 @@ public class MainActivity extends AppCompatActivity{
             c.set(Calendar.HOUR_OF_DAY, 9 - (int)(data.online_time / 60));
             c.set(Calendar.MINUTE, 60 - (data.online_time % 60));
         }
-        else if(class_no==1&& online==-1)
+        else if(class_no==1&& (online==-1|| online==2))
         {
             int i=0;
             if(data.in_advance>45)
@@ -534,7 +534,7 @@ public class MainActivity extends AppCompatActivity{
         if(day_inc==0)
             day_inc +=7;
 
-        c.setTimeInMillis(System.currentTimeMillis()+24*60*60*1000*7);
+        c.setTimeInMillis(System.currentTimeMillis()+24*60*60*1000*day_inc);
         System.out.println( "AUTO "+ stampToDate(c.getTimeInMillis()));
         c.set(Calendar.HOUR_OF_DAY, 2);
         c.set(Calendar.MINUTE, 0);
